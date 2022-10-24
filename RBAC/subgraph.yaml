@@ -3,44 +3,44 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: 
-    network: 
+    name:
+    network:
     source:
       address: ""
-      abi: 
-      startBlock: 
+      abi:
+      startBlock:
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
-      file: 
+      file:
       entities:
-        - 
+        -
       abis:
-        - name: 
-          file: 
+        - name:
+          file:
       eventHandlers:
-        - event: 
-          handler: 
+        - event:
+          handler:
       blockHandlers:
         - handler:
       callHandlers:
-        - function: 
-          handler: 
-      
+        - function:
+          handler:
+
 templates:
-  - kind: 
-    name: 
-    network: 
+  - kind:
+    name:
+    network:
     source:
-      abi: 
+      abi:
     mapping:
-      kind: 
+      kind:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
-      file: 
+      file:
       entities:
-        - 
+        -
       abis:
         - name:
           file:
@@ -48,5 +48,5 @@ templates:
         - event:
           handler:
       callHandlers:
-        - function: 
-          handler: 
+        - function:
+          handler:

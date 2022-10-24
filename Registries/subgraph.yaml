@@ -3,50 +3,47 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: 
-    network: 
+    name: ConstantsRegistry
+    network: chapel
     source:
-      address: ""
-      abi: 
-      startBlock: 
+      address: "0x76e98f7d84603AEb97cd1c89A80A9e914f181679" # stub
+      abi: ConstantsRegistry
+      startBlock: 1
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
-      file: 
+      file: ./src/mappings/ConstantsRegistry.ts
       entities:
-        - 
+        - Constant
       abis:
-        - name: 
-          file: 
+        - name: ConstantsRegistry
+          file: ./abis/ConstantsRegistry.json
       eventHandlers:
-        - event: 
-          handler: 
-      blockHandlers:
-        - handler:
-      callHandlers:
-        - function: 
-          handler: 
-      
-templates:
-  - kind: 
-    name: 
-    network: 
+        - event: AddedConstant(string,bytes)
+          handler: onAddedConstant
+        - event: RemovedConstans(strings)
+          handler: onRemovedConstans
+
+  - kind: ethereum/contract
+    name: RoleManagedRegistry
+    network: chapel
     source:
-      abi: 
+      address: "0x76e98f7d84603AEb97cd1c89A80A9e914f181679" # stub
+      abi: RoleManagedRegistry
+      startBlock: 1
     mapping:
-      kind: 
+      kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
-      file: 
+      file: ./src/mappings/RoleManagedRegistry.ts
       entities:
-        - 
+        - Contract
       abis:
-        - name:
-          file:
+        - name: RoleManagedRegistry
+          file: ./abis/RoleManagedRegistry.json
       eventHandlers:
-        - event:
-          handler:
-      callHandlers:
-        - function: 
-          handler: 
+        - event: AddedContract(string,address,bool)
+          handler: onAddedContract
+        - event: RemovedContract(strings)
+          handler: onRemovedContract
