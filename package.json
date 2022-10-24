@@ -1,0 +1,19 @@
+{
+  "name": "thegraph-template",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "Distributed Lab",
+  "description": "",
+  "scripts": {
+    "install": "npx husky install",
+    "lint-fix": "npm run lint-ts-fix && npm run lint-ql-fix && npm run lint-json-fix && npm run lint-yaml-fix",
+    "lint-json-fix": "prettier --write \"./[a-zA-Z0-9.]+(?!-lock).json\"",
+    "lint-yaml-fix": "prettier --write \"./**/*.yaml\"",
+    "lint-ql-fix": "prettier --write \"./**/*.graphql\"",
+    "lint-ts-fix": "prettier --write \"./**/*.ts\""
+  },
+  "dependencies": {
+    "husky": "^7.0.2",
+    "prettier": "^2.4.0"
+  }
+}

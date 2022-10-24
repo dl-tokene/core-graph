@@ -1,0 +1,52 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: 
+    network: 
+    source:
+      address: ""
+      abi: 
+      startBlock: 
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      file: 
+      entities:
+        - 
+      abis:
+        - name: 
+          file: 
+      eventHandlers:
+        - event: 
+          handler: 
+      blockHandlers:
+        - handler:
+      callHandlers:
+        - function: 
+          handler: 
+      
+templates:
+  - kind: 
+    name: 
+    network: 
+    source:
+      abi: 
+    mapping:
+      kind: 
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      file: 
+      entities:
+        - 
+      abis:
+        - name:
+          file:
+      eventHandlers:
+        - event:
+          handler:
+      callHandlers:
+        - function: 
+          handler: 
