@@ -1,5 +1,5 @@
 {
-  "name": "subgraph",
+  "name": "tokene-registries",
   "license": "MIT",
   "scripts": {
     "compile": "graph codegen && graph build",

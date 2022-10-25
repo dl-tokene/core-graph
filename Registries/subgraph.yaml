@@ -22,8 +22,8 @@ dataSources:
       eventHandlers:
         - event: AddedConstant(string,bytes)
           handler: onAddedConstant
-        - event: RemovedConstans(strings)
-          handler: onRemovedConstans
+        - event: RemovedConstant(strings)
+          handler: onRemovedConstant
 
   - kind: ethereum/contract
     name: RoleManagedRegistry
@@ -45,5 +45,5 @@ dataSources:
       eventHandlers:
         - event: AddedContract(string,address,bool)
           handler: onAddedContract
-        - event: RemovedContract(strings)
+        - event: RemovedContract(string)
           handler: onRemovedContract

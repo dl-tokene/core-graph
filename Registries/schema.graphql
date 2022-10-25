@@ -10,3 +10,21 @@ type Constant @entity {
 
   isRemoved: Boolean!
 }
+
+type Role @entity {
+  id: ID! # name
+  resources: [Resource!]!
+
+  users: [User!]!
+}
+
+type User @entity {
+  id: Bytes! # user address
+  roles: [Role!]!
+}
+
+type Resource @entity {
+  id: ID! # name
+  allows: [String!]!
+  disallows: [String!]!
+}
