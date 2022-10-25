@@ -11,6 +11,11 @@ type Constant @entity {
   isRemoved: Boolean!
 }
 
+type User @entity {
+  id: Bytes! # user address
+  roles: [Role!]!
+}
+
 type Role @entity {
   id: ID! # name
   resources: [Resource!]!
@@ -18,13 +23,8 @@ type Role @entity {
   users: [User!]!
 }
 
-type User @entity {
-  id: Bytes! # user address
-  roles: [Role!]!
-}
-
 type Resource @entity {
-  id: ID! # name
+  id: ID! # role name + resource name
   allows: [String!]!
   disallows: [String!]!
 }
