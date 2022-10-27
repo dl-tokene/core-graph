@@ -1,6 +1,7 @@
 import { Resource } from "../../../generated/schema";
 
-export function getResource(id: string): Resource {
+export function getResource(role: string, resource: string): Resource {
+  const id = role + resource;
   let entity = Resource.load(id);
 
   if (entity == null) {

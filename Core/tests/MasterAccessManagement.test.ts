@@ -129,7 +129,15 @@ describe("MasterAccessManagement", () => {
     event = createAddedPermissionsEvent(testRole, testResource, disallowedPermissionsToAdd, false, block, tx);
     onAddedPermissions(event);
 
-    assertResources(testRole + testResource, allowedPermissionsToAdd, disallowedPermissionsToAdd);
+    allowedPermissionsToAdd = allowedPermissionsToAdd.map<string>((permission) => {
+      return testRole + permission;
+    });
+
+    disallowedPermissionsToAdd = disallowedPermissionsToAdd.map<string>((permission) => {
+      return testRole + permission;
+    });
+
+    assertResources(testRole, testResource, allowedPermissionsToAdd, disallowedPermissionsToAdd);
   });
 
   test("should handle RemovedPermissions", () => {
@@ -138,7 +146,7 @@ describe("MasterAccessManagement", () => {
 
     onRemovedPermissions(event);
 
-    assertResources(testRole + testResource, ["allowed3"], ["disallowed1"]);
+    assertResources(testRole, testResource, [`${testRole}allowed3`], [`${testRole}disallowed1`]);
   });
 });
 
@@ -146,7 +154,13 @@ function assertUserRoles(id: string, roles: Array<string>): void {
   assert.fieldEquals("User", id, "roles", "[" + roles.join(", ") + "]");
 }
 
-function assertResources(id: string, allows: Array<string>, disallows: Array<string>): void {
+function assertResources(role: string, resource: string, allows: Array<string>, disallows: Array<string>): void {
+  const id = role + resource;
   assert.fieldEquals("Resource", id, "allows", "[" + allows.join(", ") + "]");
   assert.fieldEquals("Resource", id, "disallows", "[" + disallows.join(", ") + "]");
+}
+
+function assertRole(role: string, resources: Array<string>, users: Array<string>) {
+  assert.fieldEquals("Role", role, "resources", "[" + resources.join(", ") + "]");
+  assert.fieldEquals("Role", role, "users", "[" + users.join(", ") + "]");
 }
