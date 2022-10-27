@@ -8,7 +8,7 @@ type Constant @entity {
   id: ID! # name (key)
   value: Bytes!
 
-  isRemoved: Boolean!
+  # isRemoved: Boolean!
 }
 
 type User @entity {

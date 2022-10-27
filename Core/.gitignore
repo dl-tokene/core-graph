@@ -3,3 +3,4 @@ package-lock.json
 generated/*
 build
 .env
+test/.*
