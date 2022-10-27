@@ -32,6 +32,11 @@ type Resource @entity {
 }
 
 ######################## ReviewableRequests ##########################
+type RequestsThread @entity {
+  id: Bytes! # requestId of the first element
+  requests: [Request!]! @derivedFrom(field: "thread")
+}
+
 type Request @entity {
   id: Bytes! # requestId
   requestId: BigInt!
@@ -43,6 +48,7 @@ type Request @entity {
 
   status: BigInt!
 
-  nextUpdate: [Request!]! @derivedFrom(field: "prevUpdate")
-  prevUpdate: Request
+  timestamp: BigInt!
+
+  thread: RequestsThread!
 }

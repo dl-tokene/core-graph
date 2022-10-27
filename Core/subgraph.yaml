@@ -91,6 +91,7 @@ dataSources:
       file: ./src/mappings/ReviewableRequests.ts
       entities:
         - Request
+        - RequestsThread
       abis:
         - name: ReviewableRequests
           file: ./abis/ReviewableRequests.json
