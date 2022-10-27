@@ -1,0 +1,54 @@
+############################ Registries ############################
+type Contract @entity {
+  id: ID! # name
+  address: Bytes!
+  isProxy: Boolean!
+}
+
+type Constant @entity {
+  id: ID! # name (key)
+  value: Bytes!
+
+  isRemoved: Boolean!
+}
+
+############################    RBAC    ############################
+type User @entity {
+  id: Bytes! # user address
+  roles: [Role!]!
+}
+
+type Role @entity {
+  id: ID! # name
+  resources: [Resource!]!
+
+  users: [User!]!
+}
+
+type Resource @entity {
+  id: ID! # role name + resource name
+  allows: [String!]!
+  disallows: [String!]!
+}
+
+######################## ReviewableRequests ##########################
+type RequestsThread @entity {
+  id: Bytes! # requestId of the first element
+  requests: [Request!]! @derivedFrom(field: "thread")
+}
+
+type Request @entity {
+  id: Bytes! # requestId
+  requestId: BigInt!
+  creator: Bytes!
+  executor: Bytes!
+  acceptData: Bytes!
+  rejectData: Bytes!
+  description: String!
+
+  status: BigInt!
+
+  timestamp: BigInt!
+
+  thread: RequestsThread!
+}
