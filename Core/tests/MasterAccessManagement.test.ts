@@ -129,6 +129,7 @@ describe("MasterAccessManagement", () => {
     event = createAddedPermissionsEvent(testRole, testResource, disallowedPermissionsToAdd, false, block, tx);
     onAddedPermissions(event);
 
+<<<<<<< HEAD
     allowedPermissionsToAdd = allowedPermissionsToAdd.map<string>((permission) => {
       return testRole + permission;
     });
@@ -138,6 +139,9 @@ describe("MasterAccessManagement", () => {
     });
 
     assertResources(testRole, testResource, allowedPermissionsToAdd, disallowedPermissionsToAdd);
+=======
+    assertResources(testRole + testResource, allowedPermissionsToAdd, disallowedPermissionsToAdd);
+>>>>>>> 1e92089 (rbac mappings)
   });
 
   test("should handle RemovedPermissions", () => {
@@ -146,7 +150,11 @@ describe("MasterAccessManagement", () => {
 
     onRemovedPermissions(event);
 
+<<<<<<< HEAD
     assertResources(testRole, testResource, [`${testRole}allowed3`], [`${testRole}disallowed1`]);
+=======
+    assertResources(testRole + testResource, ["allowed3"], ["disallowed1"]);
+>>>>>>> 1e92089 (rbac mappings)
   });
 });
 
@@ -154,6 +162,7 @@ function assertUserRoles(id: string, roles: Array<string>): void {
   assert.fieldEquals("User", id, "roles", "[" + roles.join(", ") + "]");
 }
 
+<<<<<<< HEAD
 function assertResources(role: string, resource: string, allows: Array<string>, disallows: Array<string>): void {
   const id = role + resource;
   assert.fieldEquals("Resource", id, "allows", "[" + allows.join(", ") + "]");
@@ -164,3 +173,9 @@ function assertRole(role: string, resources: Array<string>, users: Array<string>
   assert.fieldEquals("Role", role, "resources", "[" + resources.join(", ") + "]");
   assert.fieldEquals("Role", role, "users", "[" + users.join(", ") + "]");
 }
+=======
+function assertResources(id: string, allows: Array<string>, disallows: Array<string>): void {
+  assert.fieldEquals("Resource", id, "allows", "[" + allows.join(", ") + "]");
+  assert.fieldEquals("Resource", id, "disallows", "[" + disallows.join(", ") + "]");
+}
+>>>>>>> 1e92089 (rbac mappings)

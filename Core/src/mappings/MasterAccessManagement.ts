@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import { Bytes } from "@graphprotocol/graph-ts";
+=======
+>>>>>>> 1e92089 (rbac mappings)
 import {
   GrantedRoles,
   RevokedRoles,
@@ -6,11 +9,15 @@ import {
   RemovedPermissions,
 } from "../../generated/MasterAccessManagement/MasterAccessManagement";
 import { getResource } from "../entities/rbac/Resource";
+<<<<<<< HEAD
 import { getRole } from "../entities/rbac/Role";
+=======
+>>>>>>> 1e92089 (rbac mappings)
 import { getUser } from "../entities/rbac/User";
 import { extendArray, reduceArray } from "../helpers/ArrayHelper";
 
 export function onGrantedRoles(event: GrantedRoles): void {
+<<<<<<< HEAD
   const params = event.params;
   let user = getUser(params.to);
   user.roles = extendArray<string>(user.roles, params.rolesToGrant);
@@ -20,10 +27,15 @@ export function onGrantedRoles(event: GrantedRoles): void {
     role.save();
   }
 
+=======
+  let user = getUser(event.params.to);
+  user.roles = extendArray<string>(user.roles, event.params.rolesToGrant);
+>>>>>>> 1e92089 (rbac mappings)
   user.save();
 }
 
 export function onRevokedRoles(event: RevokedRoles): void {
+<<<<<<< HEAD
   const params = event.params;
   let user = getUser(params.from);
   user.roles = reduceArray<string>(user.roles, params.rolesToRevoke);
@@ -32,11 +44,16 @@ export function onRevokedRoles(event: RevokedRoles): void {
     role.users = reduceArray<Bytes>(role.users, [user.id]);
     role.save();
   }
+=======
+  let user = getUser(event.params.from);
+  user.roles = reduceArray<string>(user.roles, event.params.rolesToRevoke);
+>>>>>>> 1e92089 (rbac mappings)
   user.save();
 }
 
 export function onAddedPermissions(event: AddedPermissions): void {
   const params = event.params;
+<<<<<<< HEAD
   let resource = getResource(params.role, params.resource);
   let role = getRole(params.role);
   role.resources = extendArray<string>(role.resources, [resource.id]);
@@ -52,11 +69,20 @@ export function onAddedPermissions(event: AddedPermissions): void {
   }
 
   role.save();
+=======
+  let resource = getResource(params.role + params.resource);
+  if (params.allowed) {
+    resource.allows = extendArray<string>(resource.allows, params.permissionsToAdd);
+  } else {
+    resource.disallows = extendArray<string>(resource.disallows, params.permissionsToAdd);
+  }
+>>>>>>> 1e92089 (rbac mappings)
   resource.save();
 }
 
 export function onRemovedPermissions(event: RemovedPermissions): void {
   const params = event.params;
+<<<<<<< HEAD
   let resource = getResource(params.role, params.resource);
   let role = getRole(params.role);
 
@@ -75,5 +101,13 @@ export function onRemovedPermissions(event: RemovedPermissions): void {
     role.save();
   }
 
+=======
+  let resource = getResource(params.role + params.resource);
+  if (params.allowed) {
+    resource.allows = reduceArray<string>(resource.allows, params.permissionsToRemove);
+  } else {
+    resource.disallows = reduceArray<string>(resource.disallows, params.permissionsToRemove);
+  }
+>>>>>>> 1e92089 (rbac mappings)
   resource.save();
 }
