@@ -10,14 +10,14 @@ export function getRequest(
   description: string = "",
   status: BigInt = BigInt.zero(),
   timestamp: BigInt = BigInt.zero(),
-  thread: Bytes = Bytes.empty()
+  thread: string = ""
 ): Request {
-  const id = Bytes.fromByteArray(Bytes.fromBigInt(requestId));
+  const id = requestId.toString();
   let entity = Request.load(id);
 
   if (entity == null) {
     entity = new Request(id);
-    entity.requestId = BigInt.fromByteArray(id);
+    entity.requestId = requestId;
     entity.creator = creator;
     entity.executor = executor;
     entity.acceptData = acceptData;

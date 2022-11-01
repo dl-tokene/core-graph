@@ -39,10 +39,13 @@ export function onRequestUpdated(event: RequestUpdated): void {
     params.acceptData,
     params.rejectData,
     params.description,
-    getEnumBigInt(RequestStatus.UPDATED),
+    getEnumBigInt(RequestStatus.CREATED),
     event.block.timestamp,
     request.thread
   ).save();
+
+  request.status = getEnumBigInt(RequestStatus.UPDATED);
+  request.save();
 }
 
 export function onRequestAccepted(event: RequestAccepted): void {

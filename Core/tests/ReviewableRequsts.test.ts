@@ -113,8 +113,8 @@ const requestId = BigInt.fromI32(1);
 const creator = Address.fromString("0xb4Ff848014fB7eE928B42F8280f5EED1A24c0E0E");
 const executor = Address.fromString("0x989F7514C41746bB6e1A12249EE8a851Ba6726BB");
 const description = "description";
-const acceptData = Bytes.empty();
-const rejectData = Bytes.empty();
+const acceptData = Bytes.fromUTF8("accept data");
+const rejectData = Bytes.fromUTF8("reject data");
 
 describe("ReviewableRequests", () => {
   test("should handle RequestCreated", () => {
@@ -141,8 +141,10 @@ describe("ReviewableRequests", () => {
 
     onRequestUpdated(event);
 
-    const status = BigInt.fromI32(2);
+    let status = BigInt.fromI32(1);
     assertRequest(newRequestId, creator, executor, acceptData, rejectData, description, status);
+    status = BigInt.fromI32(2);
+    assertRequest(requestId, creator, executor, acceptData, rejectData, description, status);
   });
 
   test("should handle RequestAccepted", () => {
@@ -182,7 +184,7 @@ function assertRequest(
   description: string,
   status: BigInt
 ): void {
-  const id = Bytes.fromByteArray(Bytes.fromBigInt(requestId)).toHexString();
+  const id = requestId.toString();
   assert.fieldEquals("Request", id, "creator", creator.toHexString());
   assert.fieldEquals("Request", id, "executor", executor.toHexString());
   assert.fieldEquals("Request", id, "acceptData", acceptData.toHexString());

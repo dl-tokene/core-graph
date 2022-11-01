@@ -33,12 +33,12 @@ type Resource @entity {
 
 ######################## ReviewableRequests ##########################
 type RequestsThread @entity {
-  id: Bytes! # requestId of the first element
+  id: ID! # requestId of the first element
   requests: [Request!]! @derivedFrom(field: "thread")
 }
 
 type Request @entity {
-  id: Bytes! # requestId
+  id: ID! # requestId
   requestId: BigInt!
   creator: Bytes!
   executor: Bytes!
