@@ -5,6 +5,7 @@
     "compile": "graph codegen && graph build",
     "codegen": "graph codegen",
     "build": "graph build",
+    "test": "graph test",
     "deploy": "graph deploy $(grep PROJECT_NAME .env | cut -d '\"' -f2)",
     "create-local": "graph create --node http://localhost:8020/ $(grep PROJECT_NAME .env | cut -d '\"' -f2)",
     "remove-local": "graph remove --node http://localhost:8020/ $(grep PROJECT_NAME .env | cut -d '\"' -f2)",

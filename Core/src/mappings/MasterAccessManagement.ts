@@ -42,13 +42,11 @@ export function onAddedPermissions(event: AddedPermissions): void {
   role.resources = extendArray<string>(role.resources, [resource.id]);
 
   for (let i = 0; i < params.permissionsToAdd.length; i++) {
-    let permission = getResource(params.role, params.permissionsToAdd[i]);
     if (params.allowed) {
-      resource.allows = extendArray<string>(resource.allows, [permission.id]);
+      resource.allows = extendArray<string>(resource.allows, [params.permissionsToAdd[i]]);
     } else {
-      resource.disallows = extendArray<string>(resource.disallows, [permission.id]);
+      resource.disallows = extendArray<string>(resource.disallows, [params.permissionsToAdd[i]]);
     }
-    permission.save();
   }
 
   role.save();
@@ -61,13 +59,11 @@ export function onRemovedPermissions(event: RemovedPermissions): void {
   let role = getRole(params.role);
 
   for (let i = 0; i < params.permissionsToRemove.length; i++) {
-    let permission = getResource(params.role, params.permissionsToRemove[i]);
     if (params.allowed) {
-      resource.allows = reduceArray<string>(resource.allows, [permission.id]);
+      resource.allows = reduceArray<string>(resource.allows, [params.permissionsToRemove[i]]);
     } else {
-      resource.disallows = reduceArray<string>(resource.disallows, [permission.id]);
+      resource.disallows = reduceArray<string>(resource.disallows, [params.permissionsToRemove[i]]);
     }
-    // permission.save();
   }
 
   if (!resource.allows.length && !resource.disallows.length) {
