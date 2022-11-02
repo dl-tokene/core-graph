@@ -2,7 +2,7 @@ import { assert, describe, newMockEvent, test } from "matchstick-as";
 import { Address, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts";
 import { AddedContract, RemovedContract } from "../generated/RoleManagedRegistry/RoleManagedRegistry";
 import { onAddedContract, onRemovedContract } from "../src/mappings/RoleManagedRegistry";
-import { getBlock, getTransaction } from "./utils";
+import { getBlock, getTransaction } from "./utils/utils";
 
 function createAddedContractEvent(
   name: string,

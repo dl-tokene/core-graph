@@ -1,4 +1,4 @@
-import { Bytes } from "@graphprotocol/graph-ts";
+import { Bytes, store } from "@graphprotocol/graph-ts";
 import {
   GrantedRoles,
   RevokedRoles,
@@ -9,6 +9,7 @@ import { getResource } from "../entities/rbac/Resource";
 import { getRole } from "../entities/rbac/Role";
 import { getUser } from "../entities/rbac/User";
 import { extendArray, reduceArray } from "../helpers/ArrayHelper";
+import { Role } from "../../generated/schema";
 
 export function onGrantedRoles(event: GrantedRoles): void {
   const params = event.params;
@@ -23,6 +24,14 @@ export function onGrantedRoles(event: GrantedRoles): void {
   user.save();
 }
 
+function handleRole(role: Role): void {
+  if (role.resources.length == 0 && role.users.length == 0) {
+    store.remove("Role", role.id);
+  } else {
+    role.save();
+  }
+}
+
 export function onRevokedRoles(event: RevokedRoles): void {
   const params = event.params;
   let user = getUser(params.from);
@@ -30,7 +39,7 @@ export function onRevokedRoles(event: RevokedRoles): void {
   for (let i = 0; i < params.rolesToRevoke.length; i++) {
     let role = getRole(params.rolesToRevoke[i]);
     role.users = reduceArray<Bytes>(role.users, [user.id]);
-    role.save();
+    handleRole(role);
   }
   user.save();
 }
@@ -66,10 +75,12 @@ export function onRemovedPermissions(event: RemovedPermissions): void {
     }
   }
 
-  if (!resource.allows.length && !resource.disallows.length) {
+  if (resource.allows.length == 0 && resource.disallows.length == 0) {
     role.resources = reduceArray<string>(role.resources, [resource.id]);
-    role.save();
-  }
+    handleRole(role);
 
-  resource.save();
+    store.remove("Resource", resource.id);
+  } else {
+    resource.save();
+  }
 }

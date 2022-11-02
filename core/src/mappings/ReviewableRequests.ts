@@ -20,7 +20,7 @@ export function onRequestCreated(event: RequestCreated): void {
     params.acceptData,
     params.rejectData,
     params.description,
-    getEnumBigInt(RequestStatus.CREATED),
+    getEnumBigInt(RequestStatus.PENDING),
     event.block.timestamp,
     requestThread.id
   );
@@ -39,12 +39,12 @@ export function onRequestUpdated(event: RequestUpdated): void {
     params.acceptData,
     params.rejectData,
     params.description,
-    getEnumBigInt(RequestStatus.CREATED),
+    getEnumBigInt(RequestStatus.PENDING),
     event.block.timestamp,
     request.thread
   ).save();
 
-  request.status = getEnumBigInt(RequestStatus.UPDATED);
+  request.status = getEnumBigInt(RequestStatus.DROPPED);
   request.save();
 }
 

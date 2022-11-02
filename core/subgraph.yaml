@@ -22,7 +22,7 @@ dataSources:
       eventHandlers:
         - event: AddedConstant(string,bytes)
           handler: onAddedConstant
-        - event: RemovedConstans(string)
+        - event: RemovedConstant(string)
           handler: onRemovedConstant
 
   - kind: ethereum/contract

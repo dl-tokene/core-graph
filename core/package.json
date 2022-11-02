@@ -1,5 +1,5 @@
 {
-  "name": "tokene-registries",
+  "name": "core",
   "license": "MIT",
   "scripts": {
     "compile": "graph codegen && graph build",

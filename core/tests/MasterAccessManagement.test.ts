@@ -12,7 +12,7 @@ import {
   onAddedPermissions,
   onRemovedPermissions,
 } from "../src/mappings/MasterAccessManagement";
-import { getBlock, getTransaction } from "./utils";
+import { getBlock, getTransaction } from "./utils/utils";
 
 function createGrantedRolesEvent(
   to: Address,
@@ -121,8 +121,8 @@ describe("MasterAccessManagement", () => {
 
     assertUserRoles(userAddress.toHexString(), ["role1"]);
     assertRole("role1", [], [userAddress.toHexString()]);
-    assertRole("role2", [], []);
-    assertRole("role3", [], []);
+    assert.notInStore("Role", "role2");
+    assert.notInStore("Role", "role3");
   });
 
   test("should handle AddedPermissions", () => {
@@ -140,20 +140,20 @@ describe("MasterAccessManagement", () => {
   });
 
   test("should handle RemovedPermissions", () => {
-    let allowedPermissionsToRemove = ["allowed1", "allowed2"];
+    let allowedPermissionsToRemove = ["allowed1", "allowed2", "allowed3"];
     let event = createRemovedPermissionsEvent(testRole, testResource, allowedPermissionsToRemove, true, block, tx);
 
     onRemovedPermissions(event);
 
-    assertResources(testRole, testResource, ["allowed3"], ["disallowed1"]);
-    assertRole(testRole, [testRole + testResource], []);
-
-    allowedPermissionsToRemove = ["allowed3"];
-    event = createRemovedPermissionsEvent(testRole, testResource, allowedPermissionsToRemove, true, block, tx);
-
-    onRemovedPermissions(event);
     assertResources(testRole, testResource, [], ["disallowed1"]);
     assertRole(testRole, [testRole + testResource], []);
+
+    allowedPermissionsToRemove = ["disallowed1"];
+    event = createRemovedPermissionsEvent(testRole, testResource, allowedPermissionsToRemove, false, block, tx);
+
+    onRemovedPermissions(event);
+    assert.notInStore("Resource", testRole + testResource);
+    assert.notInStore("Role", testRole);
   });
 });
 

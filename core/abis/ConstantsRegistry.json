@@ -28,7 +28,7 @@
           "type": "string"
         }
       ],
-      "name": "RemovedConstans",
+      "name": "RemovedConstant",
       "type": "event"
     },
     {

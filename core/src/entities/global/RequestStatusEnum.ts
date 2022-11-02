@@ -1,11 +1,10 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 
 export enum RequestStatus {
-  CREATED = 1,
-  UPDATED = 2,
-  ACCEPTED = 3,
-  REJECTED = 4,
-  DROPPED = 5,
+  PENDING = 1,
+  ACCEPTED = 2,
+  REJECTED = 3,
+  DROPPED = 4,
 }
 
 export function getEnumBigInt(operation: RequestStatus): BigInt {
