@@ -1,5 +1,5 @@
 {
-  "name": "core",
+  "name": "core-graph",
   "license": "MIT",
   "scripts": {
     "compile": "graph codegen && graph build",
