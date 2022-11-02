@@ -108,6 +108,9 @@ describe("MasterAccessManagement", () => {
     onGrantedRoles(event);
 
     assertUserRoles(userAddress.toHexString(), rolesToGrant);
+    assertRole("role1", [], [userAddress.toHexString()]);
+    assertRole("role2", [], [userAddress.toHexString()]);
+    assertRole("role3", [], [userAddress.toHexString()]);
   });
 
   test("should handle RevokedRoles", () => {
@@ -117,6 +120,9 @@ describe("MasterAccessManagement", () => {
     onRevokedRoles(event);
 
     assertUserRoles(userAddress.toHexString(), ["role1"]);
+    assertRole("role1", [], [userAddress.toHexString()]);
+    assertRole("role2", [], []);
+    assertRole("role3", [], []);
   });
 
   test("should handle AddedPermissions", () => {
@@ -129,15 +135,8 @@ describe("MasterAccessManagement", () => {
     event = createAddedPermissionsEvent(testRole, testResource, disallowedPermissionsToAdd, false, block, tx);
     onAddedPermissions(event);
 
-    allowedPermissionsToAdd = allowedPermissionsToAdd.map<string>((permission) => {
-      return testRole + permission;
-    });
-
-    disallowedPermissionsToAdd = disallowedPermissionsToAdd.map<string>((permission) => {
-      return testRole + permission;
-    });
-
     assertResources(testRole, testResource, allowedPermissionsToAdd, disallowedPermissionsToAdd);
+    assertRole(testRole, [testRole + testResource], []);
   });
 
   test("should handle RemovedPermissions", () => {
@@ -146,7 +145,15 @@ describe("MasterAccessManagement", () => {
 
     onRemovedPermissions(event);
 
-    assertResources(testRole, testResource, [`${testRole}allowed3`], [`${testRole}disallowed1`]);
+    assertResources(testRole, testResource, ["allowed3"], ["disallowed1"]);
+    assertRole(testRole, [testRole + testResource], []);
+
+    allowedPermissionsToRemove = ["allowed3"];
+    event = createRemovedPermissionsEvent(testRole, testResource, allowedPermissionsToRemove, true, block, tx);
+
+    onRemovedPermissions(event);
+    assertResources(testRole, testResource, [], ["disallowed1"]);
+    assertRole(testRole, [testRole + testResource], []);
   });
 });
 
@@ -160,7 +167,7 @@ function assertResources(role: string, resource: string, allows: Array<string>, 
   assert.fieldEquals("Resource", id, "disallows", "[" + disallows.join(", ") + "]");
 }
 
-function assertRole(role: string, resources: Array<string>, users: Array<string>) {
+function assertRole(role: string, resources: Array<string>, users: Array<string>): void {
   assert.fieldEquals("Role", role, "resources", "[" + resources.join(", ") + "]");
   assert.fieldEquals("Role", role, "users", "[" + users.join(", ") + "]");
 }
