@@ -14,7 +14,7 @@ import {
   onRequestRejected,
   onRequestDropped,
 } from "../src/mappings/ReviewableRequests";
-import { getBlock, getTransaction } from "./utils";
+import { getBlock, getTransaction } from "./utils/utils";
 
 function createRequestCreatedEvent(
   requestId: BigInt,
@@ -143,7 +143,7 @@ describe("ReviewableRequests", () => {
 
     let status = BigInt.fromI32(1);
     assertRequest(newRequestId, creator, executor, acceptData, rejectData, description, status);
-    status = BigInt.fromI32(2);
+    status = BigInt.fromI32(4);
     assertRequest(requestId, creator, executor, acceptData, rejectData, description, status);
   });
 
@@ -152,7 +152,7 @@ describe("ReviewableRequests", () => {
 
     onRequestAccepted(event);
 
-    const status = BigInt.fromI32(3);
+    const status = BigInt.fromI32(2);
     assertRequest(requestId, creator, executor, acceptData, rejectData, description, status);
   });
 
@@ -161,7 +161,7 @@ describe("ReviewableRequests", () => {
 
     onRequestRejected(event);
 
-    const status = BigInt.fromI32(4);
+    const status = BigInt.fromI32(3);
     assertRequest(requestId, creator, executor, acceptData, rejectData, description, status);
   });
 
@@ -170,7 +170,7 @@ describe("ReviewableRequests", () => {
 
     onRequestDropped(event);
 
-    const status = BigInt.fromI32(5);
+    const status = BigInt.fromI32(4);
     assertRequest(requestId, creator, executor, acceptData, rejectData, description, status);
   });
 });

@@ -1,8 +1,8 @@
 import { afterEach, assert, beforeAll, clearStore, describe, newMockEvent, test } from "matchstick-as";
 import { Address, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts";
-import { AddedConstant, RemovedConstans } from "../generated/ConstantsRegistry/ConstantsRegistry";
+import { AddedConstant, RemovedConstant } from "../generated/ConstantsRegistry/ConstantsRegistry";
 import { onAddedConstant, onRemovedConstant } from "../src/mappings/ConstantsRegistry";
-import { getBlock, getTransaction } from "./utils";
+import { getBlock, getTransaction } from "./utils/utils";
 
 function createAddedConstantEvent(
   name: string,
@@ -21,8 +21,8 @@ function createAddedConstantEvent(
   return event;
 }
 
-function createRemovedConstantEvent(name: string, block: ethereum.Block, tx: ethereum.Transaction): RemovedConstans {
-  let event = changetype<RemovedConstans>(newMockEvent());
+function createRemovedConstantEvent(name: string, block: ethereum.Block, tx: ethereum.Transaction): RemovedConstant {
+  let event = changetype<RemovedConstant>(newMockEvent());
 
   event.parameters = new Array();
   event.parameters.push(new ethereum.EventParam("name", ethereum.Value.fromString(name)));
