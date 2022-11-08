@@ -6,11 +6,12 @@
   "description": "",
   "scripts": {
     "install": "npx husky install",
-    "lint-fix": "npm run lint-ts-fix && npm run lint-ql-fix && npm run lint-json-fix && npm run lint-yaml-fix",
+    "lint-fix": "npm run lint-js-fix && npm run lint-ts-fix && npm run lint-ql-fix && npm run lint-json-fix && npm run lint-yaml-fix",
     "lint-json-fix": "prettier --write \"./[a-zA-Z0-9.]+(?!-lock).json\"",
     "lint-yaml-fix": "prettier --write \"./**/*.yaml\"",
     "lint-ql-fix": "prettier --write \"./**/*.graphql\"",
-    "lint-ts-fix": "prettier --write \"./**/*.ts\""
+    "lint-ts-fix": "prettier --write \"./**/*.ts\"",
+    "lint-js-fix": "prettier --write \"./**/*.js\""
   },
   "dependencies": {
     "husky": "^7.0.2",
