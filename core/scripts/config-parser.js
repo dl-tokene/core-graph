@@ -1,8 +1,13 @@
 const yaml = require("js-yaml");
 const fs = require("fs");
-const fetch = require("node-fetch");
 const pkg = require("../package.json");
 require("dotenv").config();
+
+const vault = require("node-vault")({
+  apiVersion: "v1",
+  endpoint: process.env.VAULT_ENDPOINT,
+  token: process.env.VAULT_TOKEN,
+});
 
 const subgraphConfig = "./subgraph.yaml";
 const contracts = [
@@ -13,13 +18,8 @@ const contracts = [
 ];
 
 async function getConfig() {
-  const response = await fetch(process.env.CONFIG_ENDPOINT);
-  if (!response.ok) {
-    throw new Error(
-      `Error while fetching config: ${response.status} ${response.statusText}`
-    );
-  }
-  const config = await response.json();
+  const responseBody = (await vault.read(process.env.CONFIG_PATH)).data;
+  const config = responseBody.data;
   validateConfig(config);
 
   const doc = yaml.load(fs.readFileSync(subgraphConfig, "utf8"));

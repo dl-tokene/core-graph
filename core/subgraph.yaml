@@ -50,7 +50,7 @@ dataSources:
     name: MasterAccessManagement
     network: chapel
     source:
-      address: "0x76e98f7d84603AEb97cd1c89A80A9e914f181679"
+      address: "0x0000000000000000000000000000000000000003"
       abi: MasterAccessManagement
       startBlock: 1
     mapping:
