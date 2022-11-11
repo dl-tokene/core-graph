@@ -11,11 +11,11 @@
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 $(grep PROJECT_NAME .env | cut -d '\"' -f2)"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.32.0",
-    "@graphprotocol/graph-ts": "0.27.0",
+    "@graphprotocol/graph-cli": "^0.32.0",
+    "@graphprotocol/graph-ts": "^0.27.0",
     "dotenv": "^16.0.3",
     "js-yaml": "^4.1.0",
     "matchstick-as": "0.5.0",
-    "node-fetch": "^2.6.7"
+    "node-vault": "^0.9.22"
   }
 }
