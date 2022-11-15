@@ -11,7 +11,7 @@ build:
   script:
     - cd core
     - docker login -u "${USER_DOCKER}" -p "${PASSWORD_DOCKER}"
-    - docker build --pull -t "$CONTAINER_RELEASE_IMAGE" -f core/docker/Dockerfile .
+    - docker build --pull -t "$CONTAINER_RELEASE_IMAGE" -f docker/Dockerfile .
     - docker push "$CONTAINER_RELEASE_IMAGE"
   only:
     - tags
