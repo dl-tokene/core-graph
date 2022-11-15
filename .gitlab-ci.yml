@@ -9,6 +9,7 @@ build:
     - docker:18-dind
   stage: build
   script:
+    - cd core
     - docker login -u "${USER_DOCKER}" -p "${PASSWORD_DOCKER}"
     - docker build --pull -t "$CONTAINER_RELEASE_IMAGE" -f core/docker/Dockerfile .
     - docker push "$CONTAINER_RELEASE_IMAGE"
