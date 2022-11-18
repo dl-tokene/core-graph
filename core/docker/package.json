@@ -3,9 +3,9 @@
   "license": "MIT",
   "scripts": {
     "compile": "graph codegen && graph build",
-    "create-local": "graph create --node $GRAPH_NODE_ENDPOINT <core-graph>",
-    "remove-local": "graph remove --node $GRAPH_NODE_ENDPOINT <core-graph>",
-    "deploy-local": "npm run compile && graph deploy --node $GRAPH_NODE_ENDPOINT --ipfs $IPFS_ENDPOINT <core-graph>",
+    "create": "graph create --node $GRAPH_NODE_ENDPOINT <core-graph>",
+    "remove": "graph remove --node $GRAPH_NODE_ENDPOINT <core-graph>",
+    "deploy": "npm run compile && graph deploy --node $GRAPH_NODE_ENDPOINT --ipfs $IPFS_ENDPOINT --version-label $GRAPH_VERSION <core-graph>",
     "update-config": "node scripts/config-parser.js"
   },
   "dependencies": {

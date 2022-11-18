@@ -6,9 +6,9 @@
     "codegen": "graph codegen",
     "build": "graph build",
     "test": "graph test",
-    "create-local": "graph create --node http://localhost:8020/ $(grep PROJECT_NAME .env | cut -d '\"' -f2)",
-    "remove-local": "graph remove --node http://localhost:8020/ $(grep PROJECT_NAME .env | cut -d '\"' -f2)",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 $(grep PROJECT_NAME .env | cut -d '\"' -f2)",
+    "create-local": "graph create --node http://localhost:8020/ core",
+    "remove-local": "graph remove --node http://localhost:8020/ core",
+    "deploy-local": "npm run compile && graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 --version-label 1.0.0 core",
     "update-config": "node scripts/config-parser.js"
   },
   "dependencies": {
