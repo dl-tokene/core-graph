@@ -17,14 +17,33 @@ const contracts = [
   "ReviewableRequests",
 ];
 
+function validateConfig(config) {
+  if (!config.startBlock || isNaN(parseInt(config.startBlock))) {
+    throw new Error(`Invalid start block`);
+  }
+
+  if (!config.addresses) {
+    throw new Error(`Invalid addresses`);
+  }
+
+  for (const contractName in config.addresses) {
+    if (!contracts.includes(contractName)) {
+      throw new Error(`Unknown contract ${contractName}`);
+    }
+  }
+}
+
 async function getConfig() {
   const responseBody = (await vault.read(process.env.CONFIG_PATH)).data;
   const config = responseBody.data;
+
   validateConfig(config);
 
   const doc = yaml.load(fs.readFileSync(subgraphConfig, "utf8"));
+
   for (const contractName in config.addresses) {
     const index = doc.dataSources.findIndex((val) => val.name === contractName);
+
     doc.dataSources[index].source.address = config.addresses[contractName];
     doc.dataSources[index].source.startBlock = config.startBlock;
   }
@@ -45,22 +64,6 @@ async function getConfig() {
   );
 
   fs.writeFileSync("./package.json", JSON.stringify(pkg));
-}
-
-function validateConfig(config) {
-  if (!config.startBlock || isNaN(parseInt(config.startBlock))) {
-    throw new Error(`Invalid start block`);
-  }
-
-  if (!config.addresses) {
-    throw new Error(`Invalid adresses`);
-  }
-
-  for (const contractName in config.addresses) {
-    if (!contracts.includes(contractName)) {
-      throw new Error(`Unknown contract ${contractName}`);
-    }
-  }
 }
 
 getConfig().then();
