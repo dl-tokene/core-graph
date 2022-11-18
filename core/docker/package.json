@@ -2,9 +2,10 @@
   "name": "core-graph",
   "license": "MIT",
   "scripts": {
+    "compile": "graph codegen && graph build",
     "create-local": "graph create --node $GRAPH_NODE_ENDPOINT <core-graph>",
     "remove-local": "graph remove --node $GRAPH_NODE_ENDPOINT <core-graph>",
-    "deploy-local": "graph deploy --node $GRAPH_NODE_ENDPOINT --ipfs $IPFS_ENDPOINT <core-graph>",
+    "deploy-local": "npm run compile && graph deploy --node $GRAPH_NODE_ENDPOINT --ipfs $IPFS_ENDPOINT <core-graph>",
     "update-config": "node scripts/config-parser.js"
   },
   "dependencies": {

@@ -8,7 +8,8 @@
     "test": "graph test",
     "create-local": "graph create --node http://localhost:8020/ $(grep PROJECT_NAME .env | cut -d '\"' -f2)",
     "remove-local": "graph remove --node http://localhost:8020/ $(grep PROJECT_NAME .env | cut -d '\"' -f2)",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 $(grep PROJECT_NAME .env | cut -d '\"' -f2)"
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 $(grep PROJECT_NAME .env | cut -d '\"' -f2)",
+    "update-config": "node scripts/config-parser.js"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.32.0",
