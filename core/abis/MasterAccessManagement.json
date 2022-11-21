@@ -35,6 +35,25 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "string",
+        "name": "role",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      }
+    ],
+    "name": "AddedRoleWithDescription",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "to",
         "type": "address"
@@ -299,6 +318,46 @@
       }
     ],
     "name": "addPermissionsToRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "role",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "resource",
+            "type": "string"
+          },
+          {
+            "internalType": "string[]",
+            "name": "permissions",
+            "type": "string[]"
+          }
+        ],
+        "internalType": "struct IRBAC.ResourceWithPermissions[]",
+        "name": "permissionsToAdd",
+        "type": "tuple[]"
+      },
+      {
+        "internalType": "bool",
+        "name": "allowed",
+        "type": "bool"
+      }
+    ],
+    "name": "addPermissionsToRoleWithDescription",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
