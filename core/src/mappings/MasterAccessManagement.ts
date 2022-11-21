@@ -4,6 +4,7 @@ import {
   RevokedRoles,
   AddedPermissions,
   RemovedPermissions,
+  AddedRoleWithDescription,
 } from "../../generated/MasterAccessManagement/MasterAccessManagement";
 import { getResource } from "../entities/rbac/Resource";
 import { getRole } from "../entities/rbac/Role";
@@ -83,4 +84,11 @@ export function onRemovedPermissions(event: RemovedPermissions): void {
   } else {
     resource.save();
   }
+}
+
+export function onAddedRoleWithDescription(event: AddedRoleWithDescription): void {
+  const params = event.params;
+  let role = getRole(params.role);
+  role.description = params.description;
+  role.save();
 }
