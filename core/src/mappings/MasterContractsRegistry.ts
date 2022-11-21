@@ -1,5 +1,5 @@
 import { Address, store } from "@graphprotocol/graph-ts";
-import { AddedContract, RemovedContract } from "../../generated/RoleManagedRegistry/RoleManagedRegistry";
+import { AddedContract, RemovedContract } from "../../generated/MasterContractsRegistry/MasterContractsRegistry";
 import { getContract } from "../entities/registries/Contract";
 
 export function onAddedContract(event: AddedContract): void {

@@ -12,7 +12,7 @@ const vault = require("node-vault")({
 const subgraphConfig = "./subgraph.yaml";
 const contracts = [
   "ConstantsRegistry",
-  "RoleManagedRegistry",
+  "MasterContractsRegistry",
   "MasterAccessManagement",
   "ReviewableRequests",
 ];

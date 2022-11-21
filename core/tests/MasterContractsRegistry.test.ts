@@ -1,7 +1,7 @@
 import { assert, describe, newMockEvent, test } from "matchstick-as";
 import { Address, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts";
-import { AddedContract, RemovedContract } from "../generated/RoleManagedRegistry/RoleManagedRegistry";
-import { onAddedContract, onRemovedContract } from "../src/mappings/RoleManagedRegistry";
+import { AddedContract, RemovedContract } from "../generated/MasterContractsRegistry/MasterContractsRegistry";
+import { onAddedContract, onRemovedContract } from "../src/mappings/MasterContractsRegistry";
 import { getBlock, getTransaction } from "./utils/utils";
 
 function createAddedContractEvent(
@@ -39,7 +39,7 @@ const tx = getTransaction(Bytes.fromByteArray(Bytes.fromBigInt(BigInt.fromI32(1)
 
 const name = "first contract";
 
-describe("RoleManagedRegistry", () => {
+describe("MasterContractsRegistry", () => {
   test("should handle AddedContract", () => {
     let address = Address.fromString("0xb4Ff848014fB7eE928B42F8280f5EED1A24c0E0E");
     let isProxy = false;

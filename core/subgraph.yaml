@@ -25,22 +25,22 @@ dataSources:
         - event: RemovedConstant(string)
           handler: onRemovedConstant
   - kind: ethereum/contract
-    name: RoleManagedRegistry
+    name: MasterContractsRegistry
     network: mainnet
     source:
       address: "0x0000000000000000000000000000000000000002"
-      abi: RoleManagedRegistry
+      abi: MasterContractsRegistry
       startBlock: 1
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
-      file: ./src/mappings/RoleManagedRegistry.ts
+      file: ./src/mappings/MasterContractsRegistry.ts
       entities:
         - Contract
       abis:
-        - name: RoleManagedRegistry
-          file: ./abis/RoleManagedRegistry.json
+        - name: MasterContractsRegistry
+          file: ./abis/MasterContractsRegistry.json
       eventHandlers:
         - event: AddedContract(string,address,bool)
           handler: onAddedContract

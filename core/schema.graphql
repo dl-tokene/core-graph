@@ -10,7 +10,7 @@ type Constant @entity {
   value: Bytes!
 }
 
-############################    RBAC    ############################
+############################### RBAC ###############################
 type User @entity {
   id: Bytes! # user address
   roles: [Role!]!
