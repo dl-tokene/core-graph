@@ -74,6 +74,8 @@ dataSources:
           handler: onAddedPermissions
         - event: RemovedPermissions(string,string,string[],bool)
           handler: onRemovedPermissions
+        - event: AddedRoleWithDescription(string,string)
+          handler: onAddedRoleWithDescription
   - kind: ethereum/contract
     name: ReviewableRequests
     network: mainnet

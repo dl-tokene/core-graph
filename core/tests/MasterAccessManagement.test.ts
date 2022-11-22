@@ -184,6 +184,28 @@ describe("MasterAccessManagement", () => {
 
     assertRole(testRole, description, [], []);
   });
+
+  test("should handle AddedPermissions and AddedRoleWithDescription", () => {
+    const newTestRole = "new test role";
+    let allowedPermissionsToAdd = ["allowed1", "allowed2", "allowed3"];
+    let event = createAddedPermissionsEvent(newTestRole, testResource, allowedPermissionsToAdd, true, block, tx);
+
+    onAddedPermissions(event);
+
+    let disallowedPermissionsToAdd = ["disallowed1"];
+    event = createAddedPermissionsEvent(newTestRole, testResource, disallowedPermissionsToAdd, false, block, tx);
+    onAddedPermissions(event);
+
+    assertResources(newTestRole, testResource, allowedPermissionsToAdd, disallowedPermissionsToAdd);
+    assertRole(newTestRole, "", [newTestRole + testResource], []);
+
+    const description = "test description";
+    const descriptionEvent = createAddedRoleWithDescriptionEvent(newTestRole, description, block, tx);
+
+    onAddedRoleWithDescription(descriptionEvent);
+
+    assertRole(newTestRole, description, [newTestRole + testResource], []);
+  });
 });
 
 function assertUserRoles(id: string, roles: Array<string>): void {

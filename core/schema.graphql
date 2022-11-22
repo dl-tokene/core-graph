@@ -18,6 +18,7 @@ type User @entity {
 
 type Role @entity {
   id: ID! # name
+  description: String!
   resources: [Resource!]!
 
   users: [User!]!

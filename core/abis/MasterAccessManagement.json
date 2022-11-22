@@ -330,11 +330,6 @@
         "type": "string"
       },
       {
-        "internalType": "string",
-        "name": "description",
-        "type": "string"
-      },
-      {
         "components": [
           {
             "internalType": "string",
@@ -355,9 +350,14 @@
         "internalType": "bool",
         "name": "allowed",
         "type": "bool"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
       }
     ],
-    "name": "addPermissionsToRoleWithDescription",
+    "name": "addPermissionsToRoleWithDesctription",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
