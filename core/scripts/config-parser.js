@@ -50,15 +50,15 @@ async function getConfig() {
 
   fs.writeFileSync(subgraphConfig, yaml.dump(doc));
 
-  pkg.scripts["create-local"] = pkg.scripts["create-local"].replace(
+  pkg.scripts["create"] = pkg.scripts["create"].replace(
     "<core-graph>",
     config.projectName
   );
-  pkg.scripts["deploy-local"] = pkg.scripts["deploy-local"].replace(
+  pkg.scripts["deploy"] = pkg.scripts["deploy"].replace(
     "<core-graph>",
     config.projectName
   );
-  pkg.scripts["remove-local"] = pkg.scripts["remove-local"].replace(
+  pkg.scripts["remove"] = pkg.scripts["remove"].replace(
     "<core-graph>",
     config.projectName
   );
