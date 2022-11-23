@@ -34,7 +34,7 @@ function validateConfig(config) {
 }
 
 async function getConfig() {
-  const responseBody = (await vault.read(process.env.CONFIG_PATH)).data;
+  const responseBody = (await vault.read(process.env.VAULT_CONFIG_PATH)).data;
   const config = responseBody.data;
 
   validateConfig(config);
