@@ -6,6 +6,7 @@ export function getRole(id: string): Role {
 
   if (entity == null) {
     entity = new Role(id);
+    entity.description = "";
     entity.resources = new Array<string>();
     entity.users = new Array<Bytes>();
   }

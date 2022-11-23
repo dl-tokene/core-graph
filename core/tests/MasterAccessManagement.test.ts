@@ -5,12 +5,14 @@ import {
   RevokedRoles,
   AddedPermissions,
   RemovedPermissions,
+  AddedRoleWithDescription,
 } from "../generated/MasterAccessManagement/MasterAccessManagement";
 import {
   onGrantedRoles,
   onRevokedRoles,
   onAddedPermissions,
   onRemovedPermissions,
+  onAddedRoleWithDescription,
 } from "../src/mappings/MasterAccessManagement";
 import { getBlock, getTransaction } from "./utils/utils";
 
@@ -92,6 +94,23 @@ function createRemovedPermissionsEvent(
   return event;
 }
 
+function createAddedRoleWithDescriptionEvent(
+  role: string,
+  description: string,
+  block: ethereum.Block,
+  tx: ethereum.Transaction
+): AddedRoleWithDescription {
+  let event = changetype<AddedRoleWithDescription>(newMockEvent());
+  event.parameters = new Array();
+  event.parameters.push(new ethereum.EventParam("role", ethereum.Value.fromString(role)));
+  event.parameters.push(new ethereum.EventParam("description", ethereum.Value.fromString(description)));
+
+  event.block = block;
+  event.transaction = tx;
+
+  return event;
+}
+
 const block = getBlock(BigInt.fromI32(1), BigInt.fromI32(1));
 const tx = getTransaction(Bytes.fromByteArray(Bytes.fromBigInt(BigInt.fromI32(1))));
 
@@ -108,9 +127,10 @@ describe("MasterAccessManagement", () => {
     onGrantedRoles(event);
 
     assertUserRoles(userAddress.toHexString(), rolesToGrant);
-    assertRole("role1", [], [userAddress.toHexString()]);
-    assertRole("role2", [], [userAddress.toHexString()]);
-    assertRole("role3", [], [userAddress.toHexString()]);
+    const description = "";
+    assertRole("role1", description, [], [userAddress.toHexString()]);
+    assertRole("role2", description, [], [userAddress.toHexString()]);
+    assertRole("role3", description, [], [userAddress.toHexString()]);
   });
 
   test("should handle RevokedRoles", () => {
@@ -120,7 +140,7 @@ describe("MasterAccessManagement", () => {
     onRevokedRoles(event);
 
     assertUserRoles(userAddress.toHexString(), ["role1"]);
-    assertRole("role1", [], [userAddress.toHexString()]);
+    assertRole("role1", "", [], [userAddress.toHexString()]);
     assert.notInStore("Role", "role2");
     assert.notInStore("Role", "role3");
   });
@@ -136,7 +156,7 @@ describe("MasterAccessManagement", () => {
     onAddedPermissions(event);
 
     assertResources(testRole, testResource, allowedPermissionsToAdd, disallowedPermissionsToAdd);
-    assertRole(testRole, [testRole + testResource], []);
+    assertRole(testRole, "", [testRole + testResource], []);
   });
 
   test("should handle RemovedPermissions", () => {
@@ -146,7 +166,7 @@ describe("MasterAccessManagement", () => {
     onRemovedPermissions(event);
 
     assertResources(testRole, testResource, [], ["disallowed1"]);
-    assertRole(testRole, [testRole + testResource], []);
+    assertRole(testRole, "", [testRole + testResource], []);
 
     allowedPermissionsToRemove = ["disallowed1"];
     event = createRemovedPermissionsEvent(testRole, testResource, allowedPermissionsToRemove, false, block, tx);
@@ -154,6 +174,37 @@ describe("MasterAccessManagement", () => {
     onRemovedPermissions(event);
     assert.notInStore("Resource", testRole + testResource);
     assert.notInStore("Role", testRole);
+  });
+
+  test("should handle AddedRoleWithDescription", () => {
+    const description = "test description";
+    const event = createAddedRoleWithDescriptionEvent(testRole, description, block, tx);
+
+    onAddedRoleWithDescription(event);
+
+    assertRole(testRole, description, [], []);
+  });
+
+  test("should handle AddedPermissions and AddedRoleWithDescription", () => {
+    const newTestRole = "new test role";
+    let allowedPermissionsToAdd = ["allowed1", "allowed2", "allowed3"];
+    let event = createAddedPermissionsEvent(newTestRole, testResource, allowedPermissionsToAdd, true, block, tx);
+
+    onAddedPermissions(event);
+
+    let disallowedPermissionsToAdd = ["disallowed1"];
+    event = createAddedPermissionsEvent(newTestRole, testResource, disallowedPermissionsToAdd, false, block, tx);
+    onAddedPermissions(event);
+
+    assertResources(newTestRole, testResource, allowedPermissionsToAdd, disallowedPermissionsToAdd);
+    assertRole(newTestRole, "", [newTestRole + testResource], []);
+
+    const description = "test description";
+    const descriptionEvent = createAddedRoleWithDescriptionEvent(newTestRole, description, block, tx);
+
+    onAddedRoleWithDescription(descriptionEvent);
+
+    assertRole(newTestRole, description, [newTestRole + testResource], []);
   });
 });
 
@@ -167,7 +218,8 @@ function assertResources(role: string, resource: string, allows: Array<string>, 
   assert.fieldEquals("Resource", id, "disallows", "[" + disallows.join(", ") + "]");
 }
 
-function assertRole(role: string, resources: Array<string>, users: Array<string>): void {
+function assertRole(role: string, description: string, resources: Array<string>, users: Array<string>): void {
+  assert.fieldEquals("Role", role, "description", description);
   assert.fieldEquals("Role", role, "resources", "[" + resources.join(", ") + "]");
   assert.fieldEquals("Role", role, "users", "[" + users.join(", ") + "]");
 }
