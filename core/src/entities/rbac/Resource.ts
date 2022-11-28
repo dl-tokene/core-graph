@@ -1,11 +1,12 @@
 import { Resource } from "../../../generated/schema";
 
 export function getResource(role: string, resource: string): Resource {
-  const id = role + resource;
+  const id = role + "_" + resource;
   let entity = Resource.load(id);
 
   if (entity == null) {
     entity = new Resource(id);
+    entity.name = resource;
     entity.allows = new Array<string>();
     entity.disallows = new Array<string>();
   }

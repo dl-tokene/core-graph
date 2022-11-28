@@ -156,7 +156,7 @@ describe("MasterAccessManagement", () => {
     onAddedPermissions(event);
 
     assertResources(testRole, testResource, allowedPermissionsToAdd, disallowedPermissionsToAdd);
-    assertRole(testRole, "", [testRole + testResource], []);
+    assertRole(testRole, "", [testRole + "_" + testResource], []);
   });
 
   test("should handle RemovedPermissions", () => {
@@ -166,7 +166,7 @@ describe("MasterAccessManagement", () => {
     onRemovedPermissions(event);
 
     assertResources(testRole, testResource, [], ["disallowed1"]);
-    assertRole(testRole, "", [testRole + testResource], []);
+    assertRole(testRole, "", [testRole + "_" + testResource], []);
 
     allowedPermissionsToRemove = ["disallowed1"];
     event = createRemovedPermissionsEvent(testRole, testResource, allowedPermissionsToRemove, false, block, tx);
@@ -197,14 +197,14 @@ describe("MasterAccessManagement", () => {
     onAddedPermissions(event);
 
     assertResources(newTestRole, testResource, allowedPermissionsToAdd, disallowedPermissionsToAdd);
-    assertRole(newTestRole, "", [newTestRole + testResource], []);
+    assertRole(newTestRole, "", [newTestRole + "_" + testResource], []);
 
     const description = "test description";
     const descriptionEvent = createAddedRoleWithDescriptionEvent(newTestRole, description, block, tx);
 
     onAddedRoleWithDescription(descriptionEvent);
 
-    assertRole(newTestRole, description, [newTestRole + testResource], []);
+    assertRole(newTestRole, description, [newTestRole + "_" + testResource], []);
   });
 });
 
@@ -213,7 +213,8 @@ function assertUserRoles(id: string, roles: Array<string>): void {
 }
 
 function assertResources(role: string, resource: string, allows: Array<string>, disallows: Array<string>): void {
-  const id = role + resource;
+  const id = role + "_" + resource;
+  assert.fieldEquals("Resource", id, "name", resource);
   assert.fieldEquals("Resource", id, "allows", "[" + allows.join(", ") + "]");
   assert.fieldEquals("Resource", id, "disallows", "[" + disallows.join(", ") + "]");
 }
