@@ -25,7 +25,8 @@ type Role @entity {
 }
 
 type Resource @entity {
-  id: ID! # role name + resource name
+  id: ID! # role name + '_' + resource name
+  name: String!
   allows: [String!]!
   disallows: [String!]!
 }
