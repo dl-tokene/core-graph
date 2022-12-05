@@ -1,3 +1,4 @@
+import { BigInt } from "@graphprotocol/graph-ts";
 import { Resource } from "../../../generated/schema";
 
 export function getResource(role: string, resource: string): Resource {
@@ -7,6 +8,8 @@ export function getResource(role: string, resource: string): Resource {
   if (entity == null) {
     entity = new Resource(id);
     entity.name = resource;
+    entity.allowsCount = BigInt.zero();
+    entity.disallowsCount = BigInt.zero();
     entity.allows = new Array<string>();
     entity.disallows = new Array<string>();
   }

@@ -13,21 +13,29 @@ type Constant @entity {
 ############################### RBAC ###############################
 type User @entity {
   id: Bytes! # user address
+  rolesCount: BigInt!
   roles: [Role!]!
 }
 
 type Role @entity {
   id: ID! # name
   description: String!
+
+  resourcesCount: BigInt!
   resources: [Resource!]!
 
+  usersCount: BigInt!
   users: [User!]!
 }
 
 type Resource @entity {
   id: ID! # role name + '_' + resource name
   name: String!
+
+  allowsCount: BigInt!
   allows: [String!]!
+
+  disallowsCount: BigInt!
   disallows: [String!]!
 }
 
