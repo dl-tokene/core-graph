@@ -84,7 +84,7 @@ export function onRemovedPermissions(event: RemovedPermissions): void {
     }
   }
 
-  if (resource.allows.length == 0 && resource.disallows.length == 0) {
+  if (resource.allowsCount.equals(BigInt.zero()) && resource.disallowsCount.equals(BigInt.zero())) {
     role.resources = reduceArray<string>(role.resources, [resource.id]);
     role.resourcesCount = BigInt.fromU64(role.resources.length);
     handleRole(role);
