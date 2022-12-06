@@ -210,17 +210,23 @@ describe("MasterAccessManagement", () => {
 
 function assertUserRoles(id: string, roles: Array<string>): void {
   assert.fieldEquals("User", id, "roles", "[" + roles.join(", ") + "]");
+  assert.fieldEquals("User", id, "rolesCount", roles.length.toString());
 }
 
 function assertResources(role: string, resource: string, allows: Array<string>, disallows: Array<string>): void {
   const id = role + "_" + resource;
   assert.fieldEquals("Resource", id, "name", resource);
+  assert.fieldEquals("Resource", id, "allowsCount", allows.length.toString());
+  assert.fieldEquals("Resource", id, "disallowsCount", disallows.length.toString());
   assert.fieldEquals("Resource", id, "allows", "[" + allows.join(", ") + "]");
   assert.fieldEquals("Resource", id, "disallows", "[" + disallows.join(", ") + "]");
 }
 
 function assertRole(role: string, description: string, resources: Array<string>, users: Array<string>): void {
   assert.fieldEquals("Role", role, "description", description);
+  assert.fieldEquals("Role", role, "resourcesCount", resources.length.toString());
+  assert.fieldEquals("Role", role, "usersCount", users.length.toString());
+
   assert.fieldEquals("Role", role, "resources", "[" + resources.join(", ") + "]");
   assert.fieldEquals("Role", role, "users", "[" + users.join(", ") + "]");
 }
