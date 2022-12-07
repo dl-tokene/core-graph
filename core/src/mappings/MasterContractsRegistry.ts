@@ -1,4 +1,4 @@
-import { Address, store } from "@graphprotocol/graph-ts";
+import { store } from "@graphprotocol/graph-ts";
 import { AddedContract, RemovedContract } from "../../generated/MasterContractsRegistry/MasterContractsRegistry";
 import { getContract } from "../entities/registries/Contract";
 

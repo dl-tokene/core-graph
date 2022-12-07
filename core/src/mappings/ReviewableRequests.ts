@@ -19,6 +19,7 @@ export function onRequestCreated(event: RequestCreated): void {
     params.executor,
     params.acceptData,
     params.rejectData,
+    params.misc,
     params.description,
     getEnumBigInt(RequestStatus.PENDING),
     event.block.timestamp,
@@ -38,6 +39,7 @@ export function onRequestUpdated(event: RequestUpdated): void {
     params.executor,
     params.acceptData,
     params.rejectData,
+    params.misc,
     params.description,
     getEnumBigInt(RequestStatus.PENDING),
     event.block.timestamp,
@@ -45,23 +47,30 @@ export function onRequestUpdated(event: RequestUpdated): void {
   ).save();
 
   request.status = getEnumBigInt(RequestStatus.DROPPED);
+
   request.save();
 }
 
 export function onRequestAccepted(event: RequestAccepted): void {
   let request = getRequest(event.params.requestId);
+
   request.status = getEnumBigInt(RequestStatus.ACCEPTED);
+
   request.save();
 }
 
 export function onRequestRejected(event: RequestRejected): void {
   let request = getRequest(event.params.requestId);
+
   request.status = getEnumBigInt(RequestStatus.REJECTED);
+
   request.save();
 }
 
 export function onRequestDropped(event: RequestDropped): void {
   let request = getRequest(event.params.requestId);
+
   request.status = getEnumBigInt(RequestStatus.DROPPED);
+
   request.save();
 }

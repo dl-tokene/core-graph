@@ -23,6 +23,7 @@ function createGrantedRolesEvent(
   tx: ethereum.Transaction
 ): GrantedRoles {
   let event = changetype<GrantedRoles>(newMockEvent());
+
   event.parameters = new Array();
   event.parameters.push(new ethereum.EventParam("to", ethereum.Value.fromAddress(to)));
   event.parameters.push(new ethereum.EventParam("rolesToGrant", ethereum.Value.fromStringArray(rolesToGrant)));
@@ -40,6 +41,7 @@ function createRevokedRolesEvent(
   tx: ethereum.Transaction
 ): RevokedRoles {
   let event = changetype<RevokedRoles>(newMockEvent());
+
   event.parameters = new Array();
   event.parameters.push(new ethereum.EventParam("from", ethereum.Value.fromAddress(from)));
   event.parameters.push(new ethereum.EventParam("rolesToRevoke", ethereum.Value.fromStringArray(rolesToRevoke)));
@@ -59,6 +61,7 @@ function createAddedPermissionsEvent(
   tx: ethereum.Transaction
 ): AddedPermissions {
   let event = changetype<AddedPermissions>(newMockEvent());
+
   event.parameters = new Array();
   event.parameters.push(new ethereum.EventParam("role", ethereum.Value.fromString(role)));
   event.parameters.push(new ethereum.EventParam("resource", ethereum.Value.fromString(resource)));
@@ -80,6 +83,7 @@ function createRemovedPermissionsEvent(
   tx: ethereum.Transaction
 ): RemovedPermissions {
   let event = changetype<RemovedPermissions>(newMockEvent());
+
   event.parameters = new Array();
   event.parameters.push(new ethereum.EventParam("role", ethereum.Value.fromString(role)));
   event.parameters.push(new ethereum.EventParam("resource", ethereum.Value.fromString(resource)));
@@ -101,6 +105,7 @@ function createAddedRoleWithDescriptionEvent(
   tx: ethereum.Transaction
 ): AddedRoleWithDescription {
   let event = changetype<AddedRoleWithDescription>(newMockEvent());
+
   event.parameters = new Array();
   event.parameters.push(new ethereum.EventParam("role", ethereum.Value.fromString(role)));
   event.parameters.push(new ethereum.EventParam("description", ethereum.Value.fromString(description)));
@@ -126,8 +131,9 @@ describe("MasterAccessManagement", () => {
 
     onGrantedRoles(event);
 
-    assertUserRoles(userAddress.toHexString(), rolesToGrant);
     const description = "";
+
+    assertUserRoles(userAddress.toHexString(), rolesToGrant);
     assertRole("role1", description, [], [userAddress.toHexString()]);
     assertRole("role2", description, [], [userAddress.toHexString()]);
     assertRole("role3", description, [], [userAddress.toHexString()]);
@@ -152,6 +158,7 @@ describe("MasterAccessManagement", () => {
     onAddedPermissions(event);
 
     let disallowedPermissionsToAdd = ["disallowed1"];
+
     event = createAddedPermissionsEvent(testRole, testResource, disallowedPermissionsToAdd, false, block, tx);
     onAddedPermissions(event);
 
@@ -172,6 +179,7 @@ describe("MasterAccessManagement", () => {
     event = createRemovedPermissionsEvent(testRole, testResource, allowedPermissionsToRemove, false, block, tx);
 
     onRemovedPermissions(event);
+
     assert.notInStore("Resource", testRole + testResource);
     assert.notInStore("Role", testRole);
   });
@@ -193,6 +201,7 @@ describe("MasterAccessManagement", () => {
     onAddedPermissions(event);
 
     let disallowedPermissionsToAdd = ["disallowed1"];
+
     event = createAddedPermissionsEvent(newTestRole, testResource, disallowedPermissionsToAdd, false, block, tx);
     onAddedPermissions(event);
 
@@ -215,6 +224,7 @@ function assertUserRoles(id: string, roles: Array<string>): void {
 
 function assertResources(role: string, resource: string, allows: Array<string>, disallows: Array<string>): void {
   const id = role + "_" + resource;
+
   assert.fieldEquals("Resource", id, "name", resource);
   assert.fieldEquals("Resource", id, "allowsCount", allows.length.toString());
   assert.fieldEquals("Resource", id, "disallowsCount", disallows.length.toString());

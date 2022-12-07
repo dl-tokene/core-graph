@@ -12,6 +12,7 @@ function createAddedContractEvent(
   tx: ethereum.Transaction
 ): AddedContract {
   let event = changetype<AddedContract>(newMockEvent());
+
   event.parameters = new Array();
   event.parameters.push(new ethereum.EventParam("name", ethereum.Value.fromString(name)));
   event.parameters.push(new ethereum.EventParam("address", ethereum.Value.fromAddress(address)));
@@ -31,6 +32,7 @@ function createRemovedContractEvent(name: string, block: ethereum.Block, tx: eth
 
   event.block = block;
   event.transaction = tx;
+
   return event;
 }
 

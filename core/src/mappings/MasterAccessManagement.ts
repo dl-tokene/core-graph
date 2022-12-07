@@ -15,36 +15,40 @@ import { Role } from "../../generated/schema";
 export function onGrantedRoles(event: GrantedRoles): void {
   const params = event.params;
   let user = getUser(params.to);
+
   user.roles = extendArray<string>(user.roles, params.rolesToGrant);
+
   for (let i = 0; i < params.rolesToGrant.length; i++) {
     let role = getRole(params.rolesToGrant[i]);
+
     role.users = extendArray<Bytes>(role.users, [user.id]);
     role.usersCount = BigInt.fromU64(role.users.length);
-    role.save();
-  }
-  user.rolesCount = BigInt.fromU64(user.roles.length);
-  user.save();
-}
 
-function handleRole(role: Role): void {
-  if (role.resources.length == 0 && role.users.length == 0) {
-    store.remove("Role", role.id);
-  } else {
     role.save();
   }
+
+  user.rolesCount = BigInt.fromU64(user.roles.length);
+
+  user.save();
 }
 
 export function onRevokedRoles(event: RevokedRoles): void {
   const params = event.params;
   let user = getUser(params.from);
+
   user.roles = reduceArray<string>(user.roles, params.rolesToRevoke);
+
   for (let i = 0; i < params.rolesToRevoke.length; i++) {
     let role = getRole(params.rolesToRevoke[i]);
+
     role.users = reduceArray<Bytes>(role.users, [user.id]);
     role.usersCount = BigInt.fromU64(role.users.length);
+
     handleRole(role);
   }
+
   user.rolesCount = BigInt.fromU64(user.roles.length);
+
   user.save();
 }
 
@@ -52,6 +56,7 @@ export function onAddedPermissions(event: AddedPermissions): void {
   const params = event.params;
   let resource = getResource(params.role, params.resource);
   let role = getRole(params.role);
+
   role.resources = extendArray<string>(role.resources, [resource.id]);
   role.resourcesCount = BigInt.fromU64(role.resourcesCount.length);
 
@@ -87,6 +92,7 @@ export function onRemovedPermissions(event: RemovedPermissions): void {
   if (resource.allowsCount.equals(BigInt.zero()) && resource.disallowsCount.equals(BigInt.zero())) {
     role.resources = reduceArray<string>(role.resources, [resource.id]);
     role.resourcesCount = BigInt.fromU64(role.resources.length);
+
     handleRole(role);
 
     store.remove("Resource", resource.id);
@@ -98,6 +104,16 @@ export function onRemovedPermissions(event: RemovedPermissions): void {
 export function onAddedRoleWithDescription(event: AddedRoleWithDescription): void {
   const params = event.params;
   let role = getRole(params.role);
+
   role.description = params.description;
+
   role.save();
+}
+
+function handleRole(role: Role): void {
+  if (role.resources.length == 0 && role.users.length == 0) {
+    store.remove("Role", role.id);
+  } else {
+    role.save();
+  }
 }

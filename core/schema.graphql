@@ -52,6 +52,7 @@ type Request @entity {
   executor: Bytes!
   acceptData: Bytes!
   rejectData: Bytes!
+  misc: String!
   description: String!
 
   status: BigInt!

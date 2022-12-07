@@ -7,6 +7,7 @@ export function getRequest(
   executor: Address = Address.zero(),
   acceptData: Bytes = Bytes.empty(),
   rejectData: Bytes = Bytes.empty(),
+  misc: string = "",
   description: string = "",
   status: BigInt = BigInt.zero(),
   timestamp: BigInt = BigInt.zero(),
@@ -22,6 +23,7 @@ export function getRequest(
     entity.executor = executor;
     entity.acceptData = acceptData;
     entity.rejectData = rejectData;
+    entity.misc = misc;
     entity.description = description;
     entity.status = status;
     entity.timestamp = timestamp;

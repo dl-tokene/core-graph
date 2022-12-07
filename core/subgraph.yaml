@@ -95,9 +95,9 @@ dataSources:
         - name: ReviewableRequests
           file: ./abis/ReviewableRequests.json
       eventHandlers:
-        - event: RequestCreated(uint256,address,address,bytes,bytes,string)
+        - event: RequestCreated(uint256,address,address,bytes,bytes,string,string)
           handler: onRequestCreated
-        - event: RequestUpdated(uint256,uint256,address,bytes,bytes,string)
+        - event: RequestUpdated(uint256,uint256,address,bytes,bytes,string,string)
           handler: onRequestUpdated
         - event: RequestAccepted(uint256)
           handler: onRequestAccepted
