@@ -9,6 +9,7 @@
     }
 }
 ```
+
 ### Get value by key
 ```graphql
 {
@@ -18,8 +19,6 @@
     }
 }
 ```
-
-
 
 ## Users
 
@@ -49,8 +48,6 @@
 }
 ```
 
-
-
 ## Roles
 
 ### Get all roles and their permissions for [Figma frame](https://www.figma.com/file/e5NCJsDKGJ7ez8KGtUnDbs/%F0%9F%94%97-TokenE?node-id=51547%3A35182&t=05DFDFtMRIWkL7o6-4)
@@ -71,6 +68,7 @@
     }
 }
 ```
+
 ### Get roles filtered by resources for [Figma frame](https://www.figma.com/file/e5NCJsDKGJ7ez8KGtUnDbs/%F0%9F%94%97-TokenE?node-id=51547%3A35182&t=05DFDFtMRIWkL7o6-4)
 
 ```graphql
@@ -117,8 +115,6 @@
 }
 ```
 
-
-
 ## Resources
 
 ### Get all resources for [Figma frame](https://www.figma.com/file/e5NCJsDKGJ7ez8KGtUnDbs/%F0%9F%94%97-TokenE?node-id=51611%3A38338&t=05DFDFtMRIWkL7o6-4)
@@ -132,9 +128,8 @@
 }
 ```
 
-
-
 ## Requests
+
 ### Get all requests for [Figma frame](https://www.figma.com/file/e5NCJsDKGJ7ez8KGtUnDbs/%F0%9F%94%97-TokenE?node-id=52373%3A47454&t=KmJqsyUTYcZGmiKu-4)
 ```graphql
 {
