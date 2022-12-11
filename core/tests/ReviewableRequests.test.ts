@@ -89,6 +89,7 @@ function createRequestAcceptedEvent(
 
 function createRequestRejectedEvent(
   requestId: BigInt,
+  reason: string,
   block: ethereum.Block,
   tx: ethereum.Transaction
 ): RequestRejected {
@@ -96,6 +97,7 @@ function createRequestRejectedEvent(
 
   event.parameters = new Array();
   event.parameters.push(new ethereum.EventParam("requestId", ethereum.Value.fromUnsignedBigInt(requestId)));
+  event.parameters.push(new ethereum.EventParam("rejectReason", ethereum.Value.fromString(reason)));
 
   event.block = block;
   event.transaction = tx;
@@ -125,6 +127,7 @@ const misc = "misc";
 const description = "description";
 const acceptData = Bytes.fromUTF8("accept data");
 const rejectData = Bytes.fromUTF8("reject data");
+const rejectReason = "rejected";
 
 describe("ReviewableRequests", () => {
   test("should handle RequestCreated", () => {
@@ -144,7 +147,7 @@ describe("ReviewableRequests", () => {
 
     const status = BigInt.fromI32(1);
 
-    assertRequest(requestId, creator, executor, acceptData, rejectData, misc, description, status);
+    assertRequest(requestId, creator, executor, acceptData, rejectData, misc, description, status, "");
   });
 
   test("should handle RequestUpdated", () => {
@@ -165,11 +168,11 @@ describe("ReviewableRequests", () => {
 
     let status = BigInt.fromI32(1);
 
-    assertRequest(newRequestId, creator, executor, acceptData, rejectData, misc, description, status);
+    assertRequest(newRequestId, creator, executor, acceptData, rejectData, misc, description, status, "");
 
     status = BigInt.fromI32(4);
 
-    assertRequest(requestId, creator, executor, acceptData, rejectData, misc, description, status);
+    assertRequest(requestId, creator, executor, acceptData, rejectData, misc, description, status, "");
   });
 
   test("should handle RequestAccepted", () => {
@@ -179,17 +182,17 @@ describe("ReviewableRequests", () => {
 
     const status = BigInt.fromI32(2);
 
-    assertRequest(requestId, creator, executor, acceptData, rejectData, misc, description, status);
+    assertRequest(requestId, creator, executor, acceptData, rejectData, misc, description, status, "");
   });
 
   test("should handle RequestRejected", () => {
-    let event = createRequestRejectedEvent(requestId, block, tx);
+    let event = createRequestRejectedEvent(requestId, rejectReason, block, tx);
 
     onRequestRejected(event);
 
     const status = BigInt.fromI32(3);
 
-    assertRequest(requestId, creator, executor, acceptData, rejectData, misc, description, status);
+    assertRequest(requestId, creator, executor, acceptData, rejectData, misc, description, status, rejectReason);
   });
 
   test("should handle RequestDropped", () => {
@@ -199,7 +202,7 @@ describe("ReviewableRequests", () => {
 
     const status = BigInt.fromI32(4);
 
-    assertRequest(requestId, creator, executor, acceptData, rejectData, misc, description, status);
+    assertRequest(requestId, creator, executor, acceptData, rejectData, misc, description, status, rejectReason);
   });
 });
 
@@ -211,7 +214,8 @@ function assertRequest(
   rejectData: Bytes,
   misc: string,
   description: string,
-  status: BigInt
+  status: BigInt,
+  rejectReason: string
 ): void {
   const id = requestId.toString();
 
@@ -222,4 +226,5 @@ function assertRequest(
   assert.fieldEquals("Request", id, "misc", misc);
   assert.fieldEquals("Request", id, "description", description);
   assert.fieldEquals("Request", id, "status", status.toString());
+  assert.fieldEquals("Request", id, "rejectReason", rejectReason);
 }

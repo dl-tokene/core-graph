@@ -63,6 +63,7 @@ export function onRequestRejected(event: RequestRejected): void {
   let request = getRequest(event.params.requestId);
 
   request.status = getEnumBigInt(RequestStatus.REJECTED);
+  request.rejectReason = event.params.reason;
 
   request.save();
 }

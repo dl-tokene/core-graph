@@ -82,6 +82,12 @@
         "internalType": "uint256",
         "name": "requestId",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "reason",
+        "type": "string"
       }
     ],
     "name": "RequestRejected",
@@ -227,6 +233,11 @@
         "internalType": "uint256",
         "name": "requestId_",
         "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "reason_",
+        "type": "string"
       }
     ],
     "name": "rejectRequest",

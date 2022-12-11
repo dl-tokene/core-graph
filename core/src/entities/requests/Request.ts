@@ -26,6 +26,7 @@ export function getRequest(
     entity.misc = misc;
     entity.description = description;
     entity.status = status;
+    entity.rejectReason = "";
     entity.timestamp = timestamp;
     entity.thread = thread;
   }

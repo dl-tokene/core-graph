@@ -101,7 +101,7 @@ dataSources:
           handler: onRequestUpdated
         - event: RequestAccepted(uint256)
           handler: onRequestAccepted
-        - event: RequestRejected(uint256)
+        - event: RequestRejected(uint256,string)
           handler: onRequestRejected
         - event: RequestDropped(uint256)
           handler: onRequestDropped
