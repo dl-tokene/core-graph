@@ -1,17 +1,14 @@
 import { Global } from "../../../generated/schema";
 import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { GLOBAL_ID } from "../global/globals";
 
-export function getGlobal(
-  id: string,
-  MasterContractsRegistry: Address = Address.zero(),
-  totalUsersCount: BigInt = BigInt.zero()
-): Global {
-  let entity = Global.load(id);
+export function getGlobal(): Global {
+  let entity = Global.load(GLOBAL_ID);
 
   if (entity == null) {
-    entity = new Global(id);
-    entity.MasterContractsRegistry = MasterContractsRegistry;
-    entity.totalUsersCount = totalUsersCount;
+    entity = new Global(GLOBAL_ID);
+    entity.MasterContractsRegistry = Address.zero();
+    entity.totalUsersCount = BigInt.zero();
   }
 
   return entity;

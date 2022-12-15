@@ -16,6 +16,7 @@ import {
 } from "../src/mappings/MasterAccessManagement";
 import { getBlock, getTransaction } from "./utils/utils";
 import { getGlobal } from "../src/entities/registries/Global";
+import { GLOBAL_ID } from "../src/entities/global/globals";
 
 function createGrantedRolesEvent(
   to: Address,
@@ -125,11 +126,9 @@ const userAddress = Address.fromString("0xb4Ff848014fB7eE928B42F8280f5EED1A24c0E
 const testRole = "test_role";
 const testResource = "test_resource";
 
-const globalId = "global";
-
 describe("MasterAccessManagement", () => {
   beforeAll(() => {
-    getGlobal(globalId).save();
+    getGlobal().save();
     assertTotalUsersCount("0");
   });
 
@@ -252,5 +251,5 @@ function assertRole(role: string, description: string, resources: Array<string>,
 }
 
 function assertTotalUsersCount(totalUsersCount: string): void {
-  assert.fieldEquals("Global", globalId, "totalUsersCount", totalUsersCount);
+  assert.fieldEquals("Global", GLOBAL_ID, "totalUsersCount", totalUsersCount);
 }

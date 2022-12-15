@@ -10,7 +10,7 @@ export function getUser(id: Address): User {
     entity.rolesCount = BigInt.zero();
     entity.roles = new Array<string>();
 
-    const global = getGlobal("global");
+    const global = getGlobal();
     global.totalUsersCount = global.totalUsersCount.plus(BigInt.fromI32(1));
     global.save();
   }

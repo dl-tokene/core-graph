@@ -16,5 +16,7 @@ export function onRemovedContract(event: RemovedContract): void {
 }
 
 export function onInitialized(event: Initialized): void {
-  getGlobal("global", event.address).save();
+  const global = getGlobal();
+  global.MasterContractsRegistry = event.address;
+  global.save();
 }

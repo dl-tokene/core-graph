@@ -7,6 +7,7 @@ import {
 } from "../generated/MasterContractsRegistry/MasterContractsRegistry";
 import { onAddedContract, onInitialized, onRemovedContract } from "../src/mappings/MasterContractsRegistry";
 import { getBlock, getTransaction } from "./utils/utils";
+import { GLOBAL_ID } from "../src/entities/global/globals";
 
 function createAddedContractEvent(
   name: string,
@@ -84,7 +85,7 @@ describe("MasterContractsRegistry", () => {
 
     onInitialized(event);
 
-    const id = "global";
+    const id = GLOBAL_ID;
     assert.fieldEquals("Global", id, "id", id);
     assert.fieldEquals("Global", id, "MasterContractsRegistry", MasterContractsRegistry.toHexString());
     assert.fieldEquals("Global", id, "totalUsersCount", "0");
