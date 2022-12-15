@@ -1,4 +1,4 @@
-import { assert, describe, newMockEvent, test } from "matchstick-as";
+import { assert, beforeAll, describe, newMockEvent, test } from "matchstick-as";
 import { Address, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts";
 import {
   GrantedRoles,
@@ -15,6 +15,7 @@ import {
   onAddedRoleWithDescription,
 } from "../src/mappings/MasterAccessManagement";
 import { getBlock, getTransaction } from "./utils/utils";
+import { getGlobal } from "../src/entities/registries/Global";
 
 function createGrantedRolesEvent(
   to: Address,
@@ -124,7 +125,14 @@ const userAddress = Address.fromString("0xb4Ff848014fB7eE928B42F8280f5EED1A24c0E
 const testRole = "test_role";
 const testResource = "test_resource";
 
+const globalId = "global";
+
 describe("MasterAccessManagement", () => {
+  beforeAll(() => {
+    getGlobal(globalId).save();
+    assertTotalUsersCount("0");
+  });
+
   test("should handle GrantedRoles", () => {
     let rolesToGrant = ["role1", "role2", "role3"];
     let event = createGrantedRolesEvent(userAddress, rolesToGrant, block, tx);
@@ -137,6 +145,8 @@ describe("MasterAccessManagement", () => {
     assertRole("role1", description, [], [userAddress.toHexString()]);
     assertRole("role2", description, [], [userAddress.toHexString()]);
     assertRole("role3", description, [], [userAddress.toHexString()]);
+
+    assertTotalUsersCount("1");
   });
 
   test("should handle RevokedRoles", () => {
@@ -239,4 +249,8 @@ function assertRole(role: string, description: string, resources: Array<string>,
 
   assert.fieldEquals("Role", role, "resources", "[" + resources.join(", ") + "]");
   assert.fieldEquals("Role", role, "users", "[" + users.join(", ") + "]");
+}
+
+function assertTotalUsersCount(totalUsersCount: string): void {
+  assert.fieldEquals("Global", globalId, "totalUsersCount", totalUsersCount);
 }

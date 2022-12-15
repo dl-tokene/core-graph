@@ -46,6 +46,8 @@ dataSources:
           handler: onAddedContract
         - event: RemovedContract(string)
           handler: onRemovedContract
+        - event: Initialized()
+          handler: onInitialized
   - kind: ethereum/contract
     name: MasterAccessManagement
     network: mainnet

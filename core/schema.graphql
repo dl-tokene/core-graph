@@ -62,3 +62,9 @@ type Request @entity {
 
   thread: RequestsThread!
 }
+
+type Global @entity {
+  id: ID!
+  MasterContractsRegistry: Bytes!
+  totalUsersCount: BigInt!
+}

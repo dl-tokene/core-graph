@@ -1,7 +1,11 @@
 import { assert, describe, newMockEvent, test } from "matchstick-as";
 import { Address, BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts";
-import { AddedContract, RemovedContract } from "../generated/MasterContractsRegistry/MasterContractsRegistry";
-import { onAddedContract, onRemovedContract } from "../src/mappings/MasterContractsRegistry";
+import {
+  AddedContract,
+  Initialized,
+  RemovedContract,
+} from "../generated/MasterContractsRegistry/MasterContractsRegistry";
+import { onAddedContract, onInitialized, onRemovedContract } from "../src/mappings/MasterContractsRegistry";
 import { getBlock, getTransaction } from "./utils/utils";
 
 function createAddedContractEvent(
@@ -36,6 +40,20 @@ function createRemovedContractEvent(name: string, block: ethereum.Block, tx: eth
   return event;
 }
 
+function createInitialized(
+  MasterContractsRegistry: Address,
+  block: ethereum.Block,
+  tx: ethereum.Transaction
+): Initialized {
+  let event = changetype<Initialized>(newMockEvent());
+
+  event.address = MasterContractsRegistry;
+  event.block = block;
+  event.transaction = tx;
+
+  return event;
+}
+
 const block = getBlock(BigInt.fromI32(1), BigInt.fromI32(1));
 const tx = getTransaction(Bytes.fromByteArray(Bytes.fromBigInt(BigInt.fromI32(1))));
 
@@ -58,6 +76,18 @@ describe("MasterContractsRegistry", () => {
     onRemovedContract(event);
 
     assert.notInStore("Contract", name);
+  });
+
+  test("should handle Initialized", () => {
+    const MasterContractsRegistry = Address.fromString("0xb4Ff848014fB7eE928B42F8280f5EED1A24c0E0E");
+    let event = createInitialized(MasterContractsRegistry, block, tx);
+
+    onInitialized(event);
+
+    const id = "global";
+    assert.fieldEquals("Global", id, "id", id);
+    assert.fieldEquals("Global", id, "MasterContractsRegistry", MasterContractsRegistry.toHexString());
+    assert.fieldEquals("Global", id, "totalUsersCount", "0");
   });
 });
 

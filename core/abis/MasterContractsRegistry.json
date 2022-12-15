@@ -1,6 +1,12 @@
 [
   {
     "anonymous": false,
+    "inputs": [],
+    "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
     "inputs": [
       {
         "indexed": false,
