@@ -42,13 +42,13 @@ function createRemovedContractEvent(name: string, block: ethereum.Block, tx: eth
 }
 
 function createInitialized(
-  MasterContractsRegistry: Address,
+  masterContractsRegistry: Address,
   block: ethereum.Block,
   tx: ethereum.Transaction
 ): Initialized {
   let event = changetype<Initialized>(newMockEvent());
 
-  event.address = MasterContractsRegistry;
+  event.address = masterContractsRegistry;
   event.block = block;
   event.transaction = tx;
 
@@ -80,14 +80,14 @@ describe("MasterContractsRegistry", () => {
   });
 
   test("should handle Initialized", () => {
-    const MasterContractsRegistry = Address.fromString("0xb4Ff848014fB7eE928B42F8280f5EED1A24c0E0E");
-    let event = createInitialized(MasterContractsRegistry, block, tx);
+    const masterContractsRegistry = Address.fromString("0xb4Ff848014fB7eE928B42F8280f5EED1A24c0E0E");
+    let event = createInitialized(masterContractsRegistry, block, tx);
 
     onInitialized(event);
 
     const id = GLOBAL_ID;
     assert.fieldEquals("Global", id, "id", id);
-    assert.fieldEquals("Global", id, "MasterContractsRegistry", MasterContractsRegistry.toHexString());
+    assert.fieldEquals("Global", id, "masterContractsRegistry", masterContractsRegistry.toHexString());
     assert.fieldEquals("Global", id, "totalUsersCount", "0");
   });
 });

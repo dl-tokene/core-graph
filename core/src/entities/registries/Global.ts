@@ -7,7 +7,7 @@ export function getGlobal(): Global {
 
   if (entity == null) {
     entity = new Global(GLOBAL_ID);
-    entity.MasterContractsRegistry = Address.zero();
+    entity.masterContractsRegistry = Address.zero();
     entity.totalUsersCount = BigInt.zero();
   }
 
